@@ -1,0 +1,71 @@
+<%@ page import="java.sql.*" %>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="user.jsp" method="post">
+
+<input type="submit" name="action" value="View All Dishes">
+<br>
+
+
+<input type="submit" name="action" value="View All Orders">
+<br>
+
+<input type="submit" name="action" value="Cancelled orders">
+<br>
+
+<input type="submit" name="action" value="Pending Orders">
+<br>
+</form>
+<%
+
+String action=request.getParameter("action");
+if(action != null){
+	 if(action.equals("Add to Cart")){
+		 
+            session.setAttribute("did", Integer.parseInt(request.getParameter("did")));
+			response.sendRedirect("cart.jsp");
+			
+		}
+	  if(action.equals("View All Dishes")){
+		  session.setAttribute("action", action);
+		  response.sendRedirect("cart.jsp");
+		
+		
+	
+		
+		
+		 
+}	
+	 else if(action.equals("Pending Orders")){
+		 Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/hotel_Management?user=root & password=12345678");
+		Integer idObj = (Integer) session.getAttribute("userid");
+		if(idObj != null){
+	        int id = idObj;
+		PreparedStatement pr=con.prepareStatement("select o.oid,d.name,d.cost,o.status from orders o join dishes d on o.did=d.did where o.status='pending' and o.id=?" );
+		
+		pr.setInt(1,id);
+		ResultSet rs=pr.executeQuery();
+		while(rs.next()){
+			out.println("<h3> id:"+rs.getInt("oid")+" dish name:"+rs.getString("name")+" cost: "+rs.getDouble("cost")+" status:"+rs.getString("status")+"</h3>");
+		}
+	 }
+	 }
+}
+%>
+
+
+
+
+
+
+</body>
+</html>
