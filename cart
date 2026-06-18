@@ -1,0 +1,42 @@
+<%@page import="java.sql.DriverManager"%>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+<%
+String action=(String) session.getAttribute("action");
+if(action.equals("View All Dishes")){
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/hotel_Management?user=root & password=12345678");
+		PreparedStatement pr=con.prepareStatement("select * from dishes");
+		ResultSet rs=pr.executeQuery();
+		out.println("<table border='1'>");
+		out.println("<tr><th>Dish Name</td><th>Cost</th><th>action</th></tr>");
+		
+		while(rs.next()){
+			%>
+			<tr>
+			<td><%=rs.getString("name") %></td>
+			<td><%=rs.getInt("cost") %></td>
+			<td><form action="user.jsp" method="post">
+          <input type="hidden" name="did" value="<%= rs.getInt("did") %>">
+          
+          
+          <input type="submit" name="action" value="Add to Cart">
+      </form>
+  </td>
+</tr>
+			
+		<%}
