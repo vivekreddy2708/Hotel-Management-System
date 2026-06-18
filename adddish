@@ -1,0 +1,52 @@
+<%@page import="java.sql.DriverManager"%>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.ResultSet" %>
+
+
+<%@page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>Enter Dish Details</h1>
+<form action="adddish.jsp" type="post">
+Dish Name:
+<input type="text" name="dish">
+<br>
+Cost:
+<input type="number" name="cost">
+<br>
+<button>Add/Update Details</button>
+
+</form>
+<%
+String name=request.getParameter("dish");
+String cost1=request.getParameter("cost");
+
+if(name != null && cost1 != null){
+	int cost=Integer.parseInt(cost1);
+	Class.forName("com.mysql.cj.jdbc.Driver");
+	Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/hotel_Management?user=root && password=12345678");
+	PreparedStatement pr=con.prepareStatement("insert into dishes (name,cost) values (?,?)");
+	pr.setString(1, name);
+	pr.setInt(2,cost);
+	int i=pr.executeUpdate();
+	if(i>0){
+		out.println("<h3>"+name+" added successfully</h3>");
+		
+	}
+	else{
+		out.println("<h1>Signup failed</h1>");
+	}
+	
+}
+
+%>
+
+</body>
+</html>
