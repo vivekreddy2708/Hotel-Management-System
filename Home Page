@@ -1,0 +1,27 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>Login Success</h1>
+<form action="adddish.jsp" type="post"><button>Add Dish</button></form>
+<br>
+<form action="allorders.jsp" type="post"><button>All Orders</button></form>
+<br>
+<form action="pendingorders.jsp" type="post"><button>Pending Orders</button></form>
+<br>
+<form action="deleveredorder.jsp" type="post"><button>Delevered Order</button></form>
+<br>
+<form action="cancelorder.jsp" type="post"><button>Cancel Order</button></form>
+
+
+
+
+
+
+</body>
+</html>
