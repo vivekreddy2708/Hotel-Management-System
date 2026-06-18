@@ -1,0 +1,64 @@
+<%@page import="java.sql.DriverManager"%>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.util.*" %>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>Enter Details to signup</h1>
+<form action="signup.jsp" method="get">
+
+Name:
+<input type="text" name="name" value="vivek">
+<br>
+Email:
+<input type="email" name="email" value="vivek@gmail.com">
+<br>
+Password:
+<input type="password" name="password" value="1234">
+<br>
+
+<button>Signup</button>
+</form>
+
+<%
+String name=request.getParameter("name");
+String email=request.getParameter("email");
+String password=request.getParameter("password");
+//String number=request.getParameter("number");
+//String address=request.getParameter("address");
+
+
+if(name!=null && password != null && email != null   ){
+
+Class.forName("com.mysql.cj.jdbc.Driver");
+Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/hotel_Management?user=root&&password=12345678");
+PreparedStatement pr=con.prepareStatement("insert into users(name,email,password) values (?,?,?)");
+
+pr.setString(1, name);
+pr.setString(2,email);
+pr.setString(3, password);
+
+int i=pr.executeUpdate();
+if(i>0){
+	out.println("<h1>Signup Successfull</h1>");
+	response.sendRedirect("user.jsp");
+}
+else{
+	out.println("<h1>Signup failed</h1>");
+}
+
+}
+
+%>
+
+</body>
+</html>
